@@ -11,10 +11,30 @@ import qrcode
 from io import BytesIO
 import re
 import logging
+from datetime import datetime
 
 logger = logging.getLogger(__name__)
 
 bp = Blueprint("api", __name__, url_prefix="/api")
+
+
+def _parse_expires_at(value):
+    """Parse and validate an ISO 8601 expires_at value.
+    Returns (datetime|None, error_string|None).
+    """
+    if value is None:
+        return None, None
+    try:
+        if isinstance(value, str):
+            cleaned = value.rstrip("Z")
+            dt = datetime.fromisoformat(cleaned)
+        else:
+            return None, "expires_at must be an ISO 8601 string or null"
+        if dt <= datetime.utcnow():
+            return None, "Expiration date must be in the future"
+        return dt, None
+    except (ValueError, TypeError):
+        return None, "Invalid expires_at format. Use ISO 8601 (e.g., 2025-12-31T23:59:59)"
 
 
 def _is_social_media_url(url):
@@ -106,6 +126,13 @@ def create_short_url():
         if URL.query.filter_by(slug=slug).first():
             return jsonify({"success": False, "error": "Slug already taken"}), 400
 
+        # Parse optional expiration
+        expires_at = None
+        if data.get("expires_at") is not None:
+            expires_at, exp_error = _parse_expires_at(data["expires_at"])
+            if exp_error:
+                return jsonify({"success": False, "error": exp_error}), 400
+
         # Support both JWT and session-based auth
         user_id = None
         if hasattr(request, 'current_user') and request.current_user:
@@ -113,7 +140,7 @@ def create_short_url():
         elif current_user.is_authenticated:
             user_id = current_user.id
 
-        new_url = URL(original_url=normalized_url, slug=slug, user_id=user_id)
+        new_url = URL(original_url=normalized_url, slug=slug, user_id=user_id, expires_at=expires_at)
 
         db.session.add(new_url)
         db.session.commit()
@@ -126,6 +153,8 @@ def create_short_url():
                     "slug": slug,
                     "short_url": request.host_url + slug,
                     "original_url": normalized_url,
+                    "expires_at": new_url.expires_at.isoformat() + "Z" if new_url.expires_at else None,
+                    "is_expired": new_url.is_expired,
                 }
             ),
             201,
