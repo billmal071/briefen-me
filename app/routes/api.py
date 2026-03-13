@@ -228,6 +228,17 @@ def edit_slug(url_id):
 
         old_slug = url_obj.slug
         url_obj.slug = new_slug
+
+        # Handle optional expiration update
+        if "expires_at" in data:
+            if data["expires_at"] is None:
+                url_obj.expires_at = None
+            else:
+                expires_at, exp_error = _parse_expires_at(data["expires_at"])
+                if exp_error:
+                    return jsonify({"success": False, "error": exp_error}), 400
+                url_obj.expires_at = expires_at
+
         db.session.commit()
 
         return (
@@ -238,6 +249,8 @@ def edit_slug(url_id):
                     "new_slug": new_slug,
                     "short_url": request.host_url + new_slug,
                     "url_id": url_id,
+                    "expires_at": url_obj.expires_at.isoformat() + "Z" if url_obj.expires_at else None,
+                    "is_expired": url_obj.is_expired,
                 }
             ),
             200,
