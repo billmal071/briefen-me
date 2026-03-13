@@ -38,6 +38,8 @@ def bio_page(username):
 def redirect_to_url(slug):
     """Redirect short URL to original URL."""
     url = URL.query.filter_by(slug=slug).first_or_404()
+    if url.is_expired:
+        return render_template('expired.html', url=url), 200
     record_click(url, request, current_app)
     return redirect(url.original_url)
 
