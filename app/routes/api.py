@@ -347,6 +347,8 @@ def get_analytics(slug):
             "original_url": url_obj.original_url,
             "total_clicks": url_obj.click_count,
             "analytics": data,
+            "expires_at": url_obj.expires_at.isoformat() + "Z" if url_obj.expires_at else None,
+            "is_expired": url_obj.is_expired,
         }), 200
 
     except Exception as e:
