@@ -2529,8 +2529,10 @@ button.bio-link-delete-btn:hover {
     border: 1px solid var(--border);
     border-radius: var(--radius-full);
     background: var(--surface);
+    color: var(--text-primary);
     cursor: pointer;
     font-size: 0.875rem;
+    font-weight: 500;
     transition: all var(--transition-base);
 }
 
