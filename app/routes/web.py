@@ -227,7 +227,7 @@ def dashboard():
     ).paginate(page=page, per_page=per_page, error_out=False)
     urls = pagination.items
     bio_page = BioPage.query.filter_by(user_id=current_user.id).first()
-    return render_template('dashboard.html', urls=urls, pagination=pagination, bio_page=bio_page)
+    return render_template('dashboard.html', urls=urls, pagination=pagination, bio_page=bio_page, now=datetime.utcnow())
 
 
 @bp.route('/bio/edit')

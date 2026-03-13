@@ -2566,3 +2566,111 @@ button.bio-link-delete-btn:hover {
     color: var(--text-primary);
     font-size: 0.875rem;
 }
+
+/* Expiration badges */
+.expiry-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.125rem 0.5rem;
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.expiry-active {
+    background: var(--success-500);
+    color: #fff;
+}
+
+.expiry-expired {
+    background: var(--error-500);
+    color: #fff;
+}
+
+.url-card-expired {
+    opacity: 0.7;
+    border-left: 3px solid var(--error-500);
+}
+
+/* Expiration edit in dashboard */
+.expiration-edit {
+    margin-top: var(--space-3);
+}
+
+.expiration-edit label {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    margin-bottom: var(--space-1);
+    display: block;
+}
+
+.expiration-edit .expiration-presets {
+    margin-bottom: var(--space-2);
+}
+
+.preset-btn-edit {
+    padding: var(--space-1) var(--space-3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-full);
+    background: var(--surface);
+    cursor: pointer;
+    font-size: 0.75rem;
+    transition: all var(--transition-base);
+}
+
+.preset-btn-edit:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.preset-btn-edit.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+/* Expired link page */
+.expired-card {
+    text-align: center;
+    padding: var(--space-16) var(--space-8);
+    max-width: 600px;
+    margin: var(--space-16) auto;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);
+}
+
+.expired-card h1 {
+    color: var(--error-500);
+    margin-bottom: var(--space-4);
+}
+
+.expired-message {
+    color: var(--text-secondary);
+    margin-bottom: var(--space-6);
+}
+
+.expired-original {
+    background: var(--gray-50, #f9fafb);
+    padding: var(--space-4);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-6);
+}
+
+.expired-label {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--gray-400);
+    margin-bottom: var(--space-2);
+}
+
+.expired-link {
+    color: var(--primary);
+    word-break: break-all;
+    font-weight: 600;
+}
+
+.expired-actions {
+    margin-top: var(--space-6);
+}
