@@ -34,12 +34,21 @@ def bio_page(username):
     return render_template('bio_page.html', page=page, social_links=social_links, regular_links=regular_links)
 
 
+@bp.route('/link-expired/<slug>')
+def link_expired(slug):
+    """Show expired page for an expired link."""
+    url = URL.query.filter_by(slug=slug).first_or_404()
+    if not url.is_expired:
+        return redirect(url_for('web.redirect_to_url', slug=slug))
+    return render_template('expired.html', url=url), 410
+
+
 @bp.route('/<slug>')
 def redirect_to_url(slug):
     """Redirect short URL to original URL."""
     url = URL.query.filter_by(slug=slug).first_or_404()
     if url.is_expired:
-        return render_template('expired.html', url=url), 200
+        return redirect(url_for('web.link_expired', slug=slug))
     record_click(url, request, current_app)
     return redirect(url.original_url)
 
@@ -342,6 +351,7 @@ Disallow: /forgot-password
 Disallow: /reset-password
 Disallow: /delete/
 Disallow: /analytics/
+Disallow: /link-expired/
 Disallow: /bio/edit
 Disallow: /api/
 

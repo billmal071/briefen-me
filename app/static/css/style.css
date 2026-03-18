@@ -2653,25 +2653,6 @@ button.bio-link-delete-btn:hover {
     margin-bottom: var(--space-6);
 }
 
-.expired-original {
-    background: var(--gray-50, #f9fafb);
-    padding: var(--space-4);
-    border-radius: var(--radius-lg);
-    margin-bottom: var(--space-6);
-}
-
-.expired-label {
-    display: block;
-    font-size: 0.875rem;
-    color: var(--gray-400);
-    margin-bottom: var(--space-2);
-}
-
-.expired-link {
-    color: var(--primary);
-    word-break: break-all;
-    font-weight: 600;
-}
 
 .expired-actions {
     margin-top: var(--space-6);
