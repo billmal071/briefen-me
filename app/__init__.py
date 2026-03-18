@@ -4,6 +4,7 @@ from flask_login import LoginManager
 from flask_cors import CORS
 from werkzeug.middleware.proxy_fix import ProxyFix
 from config import Config
+from flask_migrate import Migrate
 
 db = SQLAlchemy()
 login_manager = LoginManager()
@@ -21,6 +22,7 @@ def create_app(config_class=Config):
     db.init_app(app)
     login_manager.init_app(app)
     login_manager.login_view = "web.login"
+    migrate = Migrate(app, db)
 
     # Enable CORS for Chrome Extension
     CORS(app, resources={
@@ -45,11 +47,11 @@ def create_app(config_class=Config):
     app.register_blueprint(auth.bp)
 
     # Create tables
-    with app.app_context():
-        from app.models.click import Click  # noqa: F401
-        from app.models.bio import BioPage, BioLink  # noqa: F401
+    # with app.app_context():
+    #     from app.models.click import Click  # noqa: F401
+    #     from app.models.bio import BioPage, BioLink  # noqa: F401
 
-        db.create_all()
+    #     db.create_all()
 
     return app
 
