@@ -21,6 +21,43 @@ const editSlugInput = document.getElementById('edit-slug-input');
 const saveSlugBtn = document.getElementById('save-slug-btn');
 const cancelEditBtn = document.getElementById('cancel-edit-btn');
 
+// Expiration handling
+const presetBtns = document.querySelectorAll('.preset-btn');
+const customExpiry = document.getElementById('custom-expiry');
+const expiresAtInput = document.getElementById('expires-at');
+
+if (presetBtns.length) {
+    presetBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            presetBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const days = parseInt(btn.dataset.days);
+            if (days === 0) {
+                expiresAtInput.value = '';
+                if (customExpiry) customExpiry.value = '';
+            } else {
+                const date = new Date();
+                date.setDate(date.getDate() + days);
+                expiresAtInput.value = date.toISOString();
+                if (customExpiry) customExpiry.value = '';
+            }
+        });
+    });
+}
+
+if (customExpiry) {
+    const now = new Date();
+    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+    customExpiry.min = now.toISOString().slice(0, 16);
+
+    customExpiry.addEventListener('change', () => {
+        if (customExpiry.value) {
+            presetBtns.forEach(b => b.classList.remove('active'));
+            expiresAtInput.value = new Date(customExpiry.value).toISOString();
+        }
+    });
+}
+
 // Generate slug options
 generateBtn.addEventListener('click', async () => {
     let url = urlInput.value.trim();
@@ -180,7 +217,8 @@ createBtn.addEventListener('click', async () => {
             },
             body: JSON.stringify({
                 url: currentUrl,
-                slug: selectedSlug
+                slug: selectedSlug,
+                expires_at: expiresAtInput && expiresAtInput.value ? expiresAtInput.value : null,
             })
         });
 

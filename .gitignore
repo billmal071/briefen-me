@@ -30,3 +30,4 @@ extension-build/
 briefen-me-extension-*.zip
 
 v2.md
+.gitignore
