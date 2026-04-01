@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Link Expired - Briefen{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="expired-card">
+        <h1>This Link Has Expired</h1>
+        <p class="expired-message">The short link you followed is no longer active.</p>
+        <div class="expired-original">
+            <span class="expired-label">Original destination:</span>
+            <a href="{{ url.original_url }}" class="expired-link" rel="nofollow noopener" target="_blank">
+                {{ url.original_url }}
+            </a>
+        </div>
+        <div class="expired-actions">
+            <a href="{{ url_for('web.index') }}" class="btn-primary">Go to Homepage</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
