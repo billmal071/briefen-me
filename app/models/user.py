@@ -44,7 +44,7 @@ class User(UserMixin, db.Model):
             return False
         if self.reset_token != token:
             return False
-        return not datetime.utcnow() > self.reset_token_expiry
+        return datetime.utcnow() <= self.reset_token_expiry
 
     def clear_reset_token(self):
         """Clear the reset token after successful password reset."""

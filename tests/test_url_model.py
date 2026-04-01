@@ -1,4 +1,5 @@
 import pytest
+from sqlalchemy.exc import IntegrityError
 
 from app.models.url import URL
 
@@ -20,7 +21,7 @@ def test_url_slug_unique(app, db):
 
     url2 = URL(original_url="https://other.com", slug="unique-slug")
     db.session.add(url2)
-    with pytest.raises(Exception, match="UNIQUE constraint"):
+    with pytest.raises(IntegrityError):
         db.session.commit()
     db.session.rollback()
 
@@ -34,6 +35,6 @@ def test_url_increment_clicks(app, db):
     assert url.click_count == 1
 
 
-def test_url_repr(app, db):
+def test_url_repr(app):
     url = URL(original_url="https://example.com", slug="repr-test")
     assert "repr-test" in repr(url)

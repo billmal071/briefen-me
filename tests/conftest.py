@@ -48,5 +48,8 @@ def user(app, db):
 
 @pytest.fixture
 def auth_client(client, user):
-    client.post("/login", data={"email": "test@example.com", "password": "password123"})
+    response = client.post(
+        "/login", data={"email": "test@example.com", "password": "password123"}
+    )
+    assert response.status_code in (200, 302), f"Login failed: {response.status_code}"
     return client

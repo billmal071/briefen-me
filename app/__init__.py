@@ -23,7 +23,7 @@ def create_app(config_class=Config):
     db.init_app(app)
     login_manager.init_app(app)
     login_manager.login_view = "web.login"
-    migrate = Migrate(app, db)  # noqa: F841
+    Migrate(app, db)
 
     # Enable CORS for Chrome Extension
     CORS(
