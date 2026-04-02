@@ -75,7 +75,7 @@ dependencies = [
     { name = "user-agents" },
 ]
 
-[package.optional-dependencies]
+[package.dev-dependencies]
 dev = [
     { name = "pytest" },
     { name = "ruff" },
@@ -95,14 +95,17 @@ requires-dist = [
     { name = "gunicorn", specifier = ">=21.2.0" },
     { name = "psycopg2-binary", specifier = ">=2.9.9" },
     { name = "pyjwt", specifier = ">=2.10.1" },
-    { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.0" },
     { name = "python-dotenv", specifier = ">=1.0.0" },
     { name = "qrcode", extras = ["pil"], specifier = ">=7.4.2" },
     { name = "requests", specifier = ">=2.31.0" },
-    { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.9.0" },
     { name = "user-agents", specifier = ">=2.2.0" },
 ]
-provides-extras = ["dev"]
+
+[package.metadata.requires-dev]
+dev = [
+    { name = "pytest", specifier = ">=8.0" },
+    { name = "ruff", specifier = ">=0.9.0" },
+]
 
 [[package]]
 name = "cachetools"
