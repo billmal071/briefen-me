@@ -23,12 +23,13 @@ dependencies = [
     "flask-migrate>=4.0.5",
 ]
 
-[project.optional-dependencies]
+[dependency-groups]
 dev = ["pytest>=8.0", "ruff>=0.9.0"]
 
 [tool.ruff]
 target-version = "py311"
 line-length = 88
+extend-exclude = ["migrations/"]
 
 [tool.ruff.lint]
 select = [
